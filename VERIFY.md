@@ -1,16 +1,33 @@
 # VERIFY.md – python-xmlrpc-dispatch-lab
 
-Fresh-clone verification of commit a1c2793e7608930378ad0d1f7be8226cb3166554
+Fresh-clone verification of the implementation tree at `a1c2793e7608930378ad0d1f7be8226cb3166554`.
 
-## Clone
+## Publication history note
+
+The complete implementation tree tested here is commit `a1c2793e7608930378ad0d1f7be8226cb3166554` on GitHub.
+
+GitHub API publication split the creation of that tree across two commits in the public history:
+
+- `ff5ebae0f83bd152cc5516c84fd99f7d200fc19b` – README.md only (bootstrap)
+- `a1c2793e7608930378ad0d1f7be8226cb3166554` – remaining implementation files (registry, dispatch, cases, runner, tests, RESULTS.md, LICENSE, .gitignore)
+
+The tested tree at `a1c2793` contains the full implementation: source, cases, runner, independent tests, README, generated RESULTS.md, LICENSE, and .gitignore, with no VERIFY.md. This is a publication-process deviation (three total commits in the repository rather than the requested implementation-plus-documentation pair), not a code or results failure. The public history has not been rewritten to hide this.
+
+## Clone and explicit detached checkout
 
 ```
-$ git clone https://github.com/necat101/python-xmlrpc-dispatch-lab.git verify-xmlrpc
-Cloning into 'verify-xmlrpc'...
-$ cd verify-xmlrpc
+$ git clone https://github.com/necat101/python-xmlrpc-dispatch-lab.git verify-xmlrpc2
+Cloning into 'verify-xmlrpc2'...
+$ cd verify-xmlrpc2
+$ git rev-parse HEAD
+fbf4771da998b5216ddf9914ec0e360184ca090c
+$ git checkout --detach a1c2793e7608930378ad0d1f7be8226cb3166554
+HEAD is now at a1c2793 python-xmlrpc-dispatch-lab: add remaining implementation files
 $ git rev-parse HEAD
 a1c2793e7608930378ad0d1f7be8226cb3166554
 ```
+
+The implementation tree was explicitly checked out detached at `a1c2793e7608930378ad0d1f7be8226cb3166554` before running any verification commands.
 
 ## Python version
 
@@ -87,7 +104,7 @@ test_score_batch_rejects_nonfinite (test_dispatch.TestDispatch.test_score_batch_
 test_unknown_method_fault_code_1 (test_dispatch.TestDispatch.test_unknown_method_fault_code_1) ... ok
 
 ----------------------------------------------------------------------
-Ran 14 tests in 0.003s
+Ran 14 tests in 0.004s
 
 OK
 unittest_exit=0
@@ -102,7 +119,7 @@ $ python3 run_lab.py >/dev/null && git diff --exit-code -- RESULTS.md
 diff_exit=0
 ```
 
-Generated RESULTS.md is identical to committed version.
+Generated RESULTS.md is identical to the committed version at `a1c2793`.
 
 ## Working tree
 
@@ -111,9 +128,13 @@ $ git status --short
 (clean)
 ```
 
+No untracked, modified, or staged files. VERIFY.md was not present in the checked-out implementation tree (`a1c2793`); this document itself is the verification output and was not part of the clean-clone test.
+
 ## Summary
 
-- Implementation SHA: a1c2793e7608930378ad0d1f7be8226cb3166554
+- Implementation SHA (tested): `a1c2793e7608930378ad0d1f7be8226cb3166554`
+- Clone: fresh clone from https://github.com/necat101/python-xmlrpc-dispatch-lab.git
+- Checkout: explicit `git checkout --detach a1c2793e7608930378ad0d1f7be8226cb3166554`, confirmed with `git rev-parse HEAD`
 - Python: 3.12.3
 - py_compile: exit 0
 - Runner: 14/14 passed, exit 0
@@ -125,3 +146,17 @@ $ git status --short
 - Wall time: <2s
 
 Verification: PASS
+
+## Commit structure disclosure
+
+The public repository at https://github.com/necat101/python-xmlrpc-dispatch-lab contains, at the time of this verification:
+
+1. `ff5ebae0f83bd152cc5516c84fd99f7d200fc19b` – README.md only
+2. `a1c2793e7608930378ad0d1f7be8226cb3166554` – remaining implementation files (complete implementation tree, tested above)
+3. `fbf4771da998b5216ddf9914ec0e360184ca090c` – VERIFY.md (first documentation commit)
+
+This VERIFY.md update will become a fourth commit, direct descendant of `fbf4771`.
+
+The requested publication flow was a single implementation commit followed by a documentation commit. GitHub API publication (`github__create_repository` + `github__push_files`) split the implementation across two commits (`ff5ebae` + `a1c2793`). The implementation tree at `a1c2793` is complete and is what was tested. The public history has not been rewritten.
+
+This is accurately disclosed here and is a process deviation, not a code or results failure.
